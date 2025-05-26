@@ -16,12 +16,12 @@ class User extends Authenticatable
     public $timestamps = false;
 
     protected $fillable = [
+        'IDUser',
         'ID',
         'userName',
         'email',
         'password',
         'rolID',
-        'rolName',
         'accountStatus',
     ];
 }

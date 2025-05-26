@@ -10,12 +10,12 @@ class userController extends Controller
     public function registerUser(Request $request)
     {
         $user = User::create([
-            'ID' => $request->input('ID'),
+            'IDUser' => random_int(100000, 999999),
+            'ID' => random_int(100000, 999999),
             'userName' => $request->input('userName'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
-            'rolID' => $request->input('rolID'),
-            'rolName' => $request->input('rolName'),
+            'rolID' => 2,
             'accountStatus' => 'active',
             'created_at' => now()
         ]);
