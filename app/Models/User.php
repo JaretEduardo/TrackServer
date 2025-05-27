@@ -15,6 +15,10 @@ class User extends Authenticatable
     protected $table = 'users';
     public $timestamps = false;
 
+    protected $primaryKey = 'IDUser';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'IDUser',
         'ID',
