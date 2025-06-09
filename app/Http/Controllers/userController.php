@@ -6,10 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class userController extends Controller
+class UserController extends Controller
 {
     public function registerUser(Request $request)
     {
+        $validatedData = $request->validate([
+            'userName' => 'required|string|max:50',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
         $user = User::create([
             'IDUser' => random_int(100000, 999999),
             'ID' => random_int(100000, 999999),
@@ -38,9 +44,21 @@ class userController extends Controller
 
         $token = $email->createToken('api-token')->plainTextToken;
 
+        $idRol = User::where('email', $request->input('email'))->value('rolID');
+
         return response()->json([
             'message' => 'Login successful',
-            'token' => $token
+            'RolID' => $idRol,
+            'token' => $token,
+        ], 200);
+    }
+
+    public function getUsers(){
+        $users = User::all();
+
+        return response()->json([
+            'message' => 'Users retrieved successfully',
+            'users' => $users
         ], 200);
     }
 }

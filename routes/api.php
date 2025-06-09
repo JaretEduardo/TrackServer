@@ -2,12 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\userController;
+use App\Http\Controllers\UserController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/v1.0.0/register', [userController::class, 'registerUser']);
+Route::post('/v1.0.0/register', [UserController::class, 'registerUser']);
 
-Route::post('/v1.0.0/login', [userController::class, 'loginUser']);
+Route::post('/v1.0.0/login', [UserController::class, 'loginUser']);
+
+Route::get('/v1.0.0/users', [UserController::class, 'getUsers']);
