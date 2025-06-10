@@ -10,11 +10,16 @@ class AdminController extends Controller
     public function getUsers(Request $request)
     {
         $rolID = $request->input('rolID');
+        $accountStatus = $request->input('accountStatus');
 
         $users = User::select('IDUser', 'userName', 'email', 'rolID', 'accountStatus');
 
         if ($rolID) {
             $users->where('rolID', $rolID);
+        }
+
+        if ($accountStatus) {
+            $users->where('accountStatus', $accountStatus);
         }
 
         $users = $users->get();
