@@ -52,13 +52,4 @@ class UserController extends Controller
             'token' => $token,
         ], 200);
     }
-
-    public function getUsers(){
-        $users = User::all();
-
-        return response()->json([
-            'message' => 'Users retrieved successfully',
-            'users' => $users
-        ], 200);
-    }
 }
