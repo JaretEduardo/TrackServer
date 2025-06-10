@@ -35,25 +35,26 @@ class UserController extends Controller
 
     public function loginUser(Request $request)
     {
-        $email = User::where('email', $request->input('email'))->first();
-        $password = Hash::check($request->input('password'), $email->password);
-        $status = $email->accountStatus;
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-        if (!$email || !$password) {
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        if ($status !== 'active') {
+        if ($user->accountStatus !== 'active') {
             return response()->json(['message' => 'Account is not active'], 403);
         }
 
-        $token = $email->createToken('api-token')->plainTextToken;
-
-        $idRol = User::where('email', $request->input('email'))->value('rolID');
+        $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
             'message' => 'Login successful',
-            'RolID' => $idRol,
+            'RolID' => $user->rolID,
             'token' => $token,
         ], 200);
     }
