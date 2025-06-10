@@ -44,4 +44,29 @@ class AdminController extends Controller
             'status' => $user->accountStatus
         ], 200);
     }
+
+    public function addUsers(Request $request){
+
+        $validatedData = $request->validate([
+            'userName' => 'required|string|max:50',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::create([
+            'IDUser' => random_int(100000, 999999),
+            'ID' => random_int(100000, 999999),
+            'userName' => $request->input('userName'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'rolID' => $request->input('rolID'),
+            'accountStatus' => 'active',
+            'created_at' => now()
+        ]);
+
+        return response()->json([
+            'message' => 'User registered successfully',
+            'user' => $user
+        ], 201);
+    }
 }

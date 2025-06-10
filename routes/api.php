@@ -13,6 +13,8 @@ Route::post('/v1.0.0/register', [UserController::class, 'registerUser']);
 
 Route::post('/v1.0.0/login', [UserController::class, 'loginUser']);
 
-Route::get('/v1.0.0/users', [AdminController::class, 'getUsers']);
+Route::get('/v1.0.0/admin/users', [AdminController::class, 'getUsers']);
 
-Route::put('/v1.0.0/users/status', [AdminController::class, 'updateStatus']);
+Route::put('/v1.0.0/admin/users/status', [AdminController::class, 'updateStatus']);
+
+Route::post('/v1.0.0/admin/addusers', [AdminController::class, 'addUsers']);
