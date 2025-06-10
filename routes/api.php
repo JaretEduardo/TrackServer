@@ -9,9 +9,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/v1.0.0/register', [UserController::class, 'registerUser']);
+Route::post('/v1.0.0/auth/register', [UserController::class, 'registerUser']);
 
-Route::post('/v1.0.0/login', [UserController::class, 'loginUser']);
+Route::post('/v1.0.0/auth/login', [UserController::class, 'loginUser']);
 
 Route::get('/v1.0.0/admin/users', [AdminController::class, 'getUsers']);
 
