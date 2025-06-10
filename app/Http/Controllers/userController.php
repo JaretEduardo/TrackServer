@@ -37,9 +37,14 @@ class UserController extends Controller
     {
         $email = User::where('email', $request->input('email'))->first();
         $password = Hash::check($request->input('password'), $email->password);
+        $status = $email->accountStatus;
 
         if (!$email || !$password) {
             return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        if ($status !== 'active') {
+            return response()->json(['message' => 'Account is not active'], 403);
         }
 
         $token = $email->createToken('api-token')->plainTextToken;
