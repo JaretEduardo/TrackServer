@@ -24,4 +24,24 @@ class AdminController extends Controller
             'users' => $users
         ], 200);
     }
+
+    public function updateStatus(Request $request)
+    {
+        $email = $request->input('email');
+        $newStatus = $request->input('accountStatus');
+
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $user->accountStatus = $newStatus;
+        $user->save();
+
+        return response()->json([
+            'message' => 'User status updated successfully',
+            'status' => $user->accountStatus
+        ], 200);
+    }
 }
