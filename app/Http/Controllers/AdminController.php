@@ -78,6 +78,20 @@ class AdminController extends Controller
 
     public function assignOrders(Request $request)
     {
+        $ID = $request->input('ID');
+        $OrderID = $request->input('OrderID');
 
+        if (!$ID || !$OrderID) {
+            return response()->json(['message' => 'User or Orders not found'], 400);
+        }
+
+        $assignment = Assignments::create([
+            'ID' => $ID,
+            'orderID' => $OrderID
+        ]);
+
+        return response()->json([
+            'message' => 'Orders assigned successfully'
+        ], 201);
     }
 }
