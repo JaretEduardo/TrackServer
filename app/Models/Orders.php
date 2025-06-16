@@ -9,5 +9,21 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Orders extends Model
 {
-    
+    use HasApiTokens, HasFactory, Notifiable;
+
+    protected $table = 'orders';
+    public $timestamps = false;
+
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
+    protected $fillable = [
+        'id',
+        'userID',
+        'addressee',
+        'address',
+        'description',
+        'status'
+    ];
 }
