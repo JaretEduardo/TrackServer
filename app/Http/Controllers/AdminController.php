@@ -50,8 +50,8 @@ class AdminController extends Controller
         ], 200);
     }
 
-    public function addUsers(Request $request){
-
+    public function addUsers(Request $request)
+    {
         $validatedData = $request->validate([
             'userName' => 'required|string|max:50',
             'email' => 'required|string|email|max:255|unique:users',
@@ -73,5 +73,10 @@ class AdminController extends Controller
             'message' => 'User registered successfully',
             'user' => $user
         ], 201);
+    }
+
+    public function assignOrders(Request $request)
+    {
+        
     }
 }

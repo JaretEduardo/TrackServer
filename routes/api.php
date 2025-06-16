@@ -5,16 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum', 'check.admin')->group(function () {
+    Route::get('/v1.0.0/admin/users', [AdminController::class, 'getUsers']);
+    Route::put('/v1.0.0/admin/users/status', [AdminController::class, 'updateStatus']);
+    Route::post('/v1.0.0/admin/addusers', [AdminController::class, 'addUsers']);
 });
 
 Route::post('/v1.0.0/auth/register', [UserController::class, 'registerUser']);
 
 Route::post('/v1.0.0/auth/login', [UserController::class, 'loginUser']);
-
-Route::get('/v1.0.0/admin/users', [AdminController::class, 'getUsers']);
-
-Route::put('/v1.0.0/admin/users/status', [AdminController::class, 'updateStatus']);
-
-Route::post('/v1.0.0/admin/addusers', [AdminController::class, 'addUsers']);
