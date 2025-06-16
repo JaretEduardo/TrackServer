@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Assignments;
 
 class AdminController extends Controller
 {
@@ -77,6 +78,6 @@ class AdminController extends Controller
 
     public function assignOrders(Request $request)
     {
-        
+
     }
 }
