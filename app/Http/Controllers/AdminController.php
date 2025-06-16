@@ -94,4 +94,9 @@ class AdminController extends Controller
             'message' => 'Orders assigned successfully'
         ], 201);
     }
+
+    public function getOrdersToAssign(Request $request)
+    {
+        
+    }
 }
