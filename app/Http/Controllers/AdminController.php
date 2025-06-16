@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Assignments;
+use App\Models\Orders;
 
 class AdminController extends Controller
 {
@@ -95,8 +96,13 @@ class AdminController extends Controller
         ], 201);
     }
 
-    public function getOrdersToAssign(Request $request)
+    public function getOrdersToAssign()
     {
-        
+        $orders = Orders::where('status', 'Paquete en proceso')->get();
+
+        return response()->json([
+            'message' => 'Orders retrieved successfully',
+            'orders' => $orders
+        ], 200);
     }
 }
