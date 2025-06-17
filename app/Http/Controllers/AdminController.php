@@ -116,4 +116,24 @@ class AdminController extends Controller
         'orders' => $orders
     ], 200);
     }
+
+    public function updateStatusOrder(Request $request)
+    {
+        $orderID = $request->input('orderID');
+        $newStatus = $request->input('status');
+
+        $order = Orders::find($orderID);
+
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        $order->status = $newStatus;
+        $order->save();
+
+        return response()->json([
+            'message' => 'Order status updated successfully',
+            'status' => $order->status
+        ], 200);
+    }
 }

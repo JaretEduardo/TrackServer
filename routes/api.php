@@ -11,6 +11,7 @@ Route::middleware('auth:sanctum', 'check.admin')->group(function () {
     Route::post('/v1.0.0/admin/addusers', [AdminController::class, 'addUsers']);
     Route::post('/v1.0.0/admin/assignments', [AdminController::class, 'assignOrders']);
     Route::get('/v1.0.0/admin/ordersearrings', [AdminController::class, 'getOrdersToAssign']);
+    Route::put('/v1.0.0/admin/orderstatus', [AdminController::class, 'updateStatusOrder']);
 });
 
 Route::post('/v1.0.0/auth/register', [UserController::class, 'registerUser']);
