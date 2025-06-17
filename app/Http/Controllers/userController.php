@@ -6,10 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class userController extends Controller
+class UserController extends Controller
 {
     public function registerUser(Request $request)
     {
+        $validatedData = $request->validate([
+            'userName' => 'required|string|max:50',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
         $user = User::create([
             'IDUser' => random_int(100000, 999999),
             'ID' => random_int(100000, 999999),
@@ -29,18 +35,27 @@ class userController extends Controller
 
     public function loginUser(Request $request)
     {
-        $email = User::where('email', $request->input('email'))->first();
-        $password = Hash::check($request->input('password'), $email->password);
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-        if (!$email || !$password) {
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $token = $email->createToken('api-token')->plainTextToken;
+        if ($user->accountStatus !== 'active') {
+            return response()->json(['message' => 'Account is not active'], 403);
+        }
+
+        $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
             'message' => 'Login successful',
-            'token' => $token
+            'RolID' => $user->rolID,
+            'token' => $token,
         ], 200);
     }
 }
