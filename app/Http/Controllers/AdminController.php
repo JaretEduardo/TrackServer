@@ -98,11 +98,22 @@ class AdminController extends Controller
 
     public function getOrdersToAssign()
     {
-        $orders = Orders::where('status', 'Paquete en proceso')->get();
+        $orders = Orders::with('user:id,userName,IDUser')
+        ->select('id', 'userID', 'addressee', 'description')
+        ->where('status', 'Paquete en proceso')
+        ->get()
+        ->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'userName' => $order->user->userName ?? 'Desconocido',
+                'addressee' => $order->addressee,
+                'description' => $order->description
+            ];
+        });
 
-        return response()->json([
-            'message' => 'Orders retrieved successfully',
-            'orders' => $orders
-        ], 200);
+    return response()->json([
+        'message' => 'Orders retrieved successfully',
+        'orders' => $orders
+    ], 200);
     }
 }
